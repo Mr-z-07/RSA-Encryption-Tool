@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Encryption Tool</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z' fill='%232563eb'/></svg>">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="https://cdn.pixabay.com/video/2020/08/21/47802-451812879_large.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="bi bi-shield-lock-fill me-2"></i>
+            RSA Encryption Tool
+        </div>
+        <div class="nav-links">
+            <a href="#keygen" onclick="showTab('keygen')">Key Generation</a>
+            <a href="#encrypt" onclick="showTab('encrypt')">Encryption</a>
+            <a href="#decrypt" onclick="showTab('decrypt')">Decryption</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>RSA Encryption Tool</h1>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('keygen')">
+                <i class="bi bi-key-fill"></i> Key Generation
+            </button>
+            <button class="tab" onclick="showTab('encrypt')">
+                <i class="bi bi-lock-fill"></i> Encryption
+            </button>
+            <button class="tab" onclick="showTab('decrypt')">
+                <i class="bi bi-unlock-fill"></i> Decryption
+            </button>
+        </div>
+
+        <!-- Key Generation Tab -->
+        <div id="keygen" class="tab-content">
+            <div class="card">
+                <h2>Generate RSA Keys</h2>
+                <input type="number" id="bitLength" value="8" min="4" max="16">
+                <button onclick="generateKeys()">Generate Keys</button>
+
+                <div id="keys" class="card">
+                    <h3>Public Key (n, e)</h3>
+                    <div id="publicKey"></div>
+
+                    <h3>Private Key (n, d)</h3>
+                    <div id="privateKey"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Encryption Tab -->
+        <div id="encrypt" class="tab-content" style="display: none;">
+            <div class="card">
+                <h2>Encrypt Message</h2>
+                <textarea id="plaintext" placeholder="Enter message to encrypt"></textarea>
+                <button onclick="encryptMessage()">Encrypt</button>
+                <div id="encryptedResult"></div>
+            </div>
+        </div>
+
+        <!-- Decryption Tab -->
+        <div id="decrypt" class="tab-content" style="display: none;">
+            <div class="card">
+                <h2>Decrypt Message</h2>
+                <textarea id="ciphertext" placeholder="Enter ciphertext (comma-separated numbers)"></textarea>
+                <button onclick="decryptMessage()">Decrypt</button>
+                <div id="decryptedResult"></div>
+            </div>
+        </div>
+
+        <!-- Mathematical Steps -->
+        <div class="card">
+            <h3>Mathematical Steps</h3>
+            <button onclick="toggleSteps()">Show/Hide Steps</button>
+            <div id="steps" style="display: none;">
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <h5 class="mb-3">
+                    <i class="bi bi-book me-2"></i>RSA Encryption
+                </h5>
+                <p class="text-muted">A powerful tool for secure message encryption and decryption using the RSA
+                    algorithm.</p>
+                <div class="social-links mt-3">
+                    <a href="https://www.facebook.com/mohammad.akash.482728"><i class="bi bi-facebook"></i></a>
+                    <a href="https://x.com/shadhin_s49314"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/rifat-hasan-000243241/"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://www.instagram.com/mohammadakahs685/"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                <h5 class="mb-3">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="#keygen" onclick="showTab('keygen')">
+                            <i class="bi bi-chevron-right me-1"></i> Key Generation
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#encrypt" onclick="showTab('encrypt')">
+                            <i class="bi bi-chevron-right me-1"></i> Encryption
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#decrypt" onclick="showTab('decrypt')">
+                            <i class="bi bi-chevron-right me-1"></i> Decryption
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                <h5 class="mb-3">Resources</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="Documentation.pdf" target="_blank">
+                            <i class="bi bi-chevron-right me-1"></i> Documentation
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="videos.mp4" target="_blank">
+                            <i class="bi bi-chevron-right me-1"></i> Tutorials
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="Example.pdf" target="_blank">
+                            <i class="bi bi-chevron-right me-1"></i> Examples
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="mb-3">Contact Us</h5>
+                <ul class="list-unstyled text-muted">
+                    <li class="mb-2">
+                        <i class="bi bi-envelope me-2"></i> support@rsaencryption.com
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-telephone me-2"></i> +880 1861-777010
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-geo-alt me-2"></i> AmaricanCity, Dhaka, Bangladesh
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-clock me-2"></i> 24/7 Support Available
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4 border-light">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0">&copy; 2024 RSA Encryption Tool. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0">
+                    <a href="#" class="text-decoration-none me-2">Privacy Policy</a>
+                    <a href="#" class="text-decoration-none">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
